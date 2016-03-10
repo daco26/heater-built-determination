@@ -2,7 +2,6 @@ package de.schaefer.christian.heaterbuiltdetermination;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,6 +9,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -49,7 +49,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btnShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setResult(manufacturer, tvInputSerial.getText().toString());
+
+                if(spinner.getSelectedItem().toString().equals("Bitte Hersteller auswählen")){
+                    Toast.makeText(getApplicationContext(), "Kein Hersteller ausgewählt", Toast.LENGTH_SHORT).show();
+                }else{
+                    setResult(manufacturer, tvInputSerial.getText().toString());
+                }
             }
         });
     }
@@ -229,8 +234,47 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     year = "Keine gültige Seriennummer, älter als 1964 oder neuer als 2015";
                 }
                 break;
-            default:
-                year = "Muss erst noch programmiert werden :)";
+            case "Oertli":
+                if(serialNumber.matches("\\d{2}-.*")){
+                    String number = serialNumber.substring(0,2);
+                    year = "xx"+number;
+                }
+                else{
+                    year = "Keine gültige Seriennummer";
+                }
+                break;
+            case "Paradigma":
+                year = "fehlt";
+                break;
+            case "Tecalor":
+                year = "fehlt";
+                break;
+            case "Weishaupt":
+                if(serialNumber.matches("\\d{2,}")){
+                    String number = serialNumber.substring(serialNumber.length() - 2);
+                    year = "xx"+number;
+                }
+                else{
+                    year = "Keine gültige Seriennummer";
+                }
+                break;
+            case "Dimplex":
+                if(serialNumber.matches(".+\\/.+")){
+                    String[] parts = serialNumber.split("/");
+                    String numberYear = String.valueOf(parts[0].substring(parts[0].length() - 2));
+                    String numberMonth = String.valueOf(parts[1].substring(0, 2));
+                    year = "xx"+numberYear + " / " + numberMonth;
+                }
+                else{
+                    year = "Keine gültige Seriennummer";
+                }
+                break;
+            case "Senertec":
+                year = "Prüfdaten befinden sich mit Datum teils in Klartext auf dem Gerät\n" +
+                        "In der Seriennummer steht die 2. und 3. Stelle für die Kalenderwoche im Jahr und die 4. und 5. Stelle für das Kalenderjahr";
+                break;
+            case "Fröhling":
+                year = "Herstellerjahr wird in Klartext auf dem seitlich angebrachten Typschild ausgewiesen";
                 break;
         }
 
