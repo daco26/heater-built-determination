@@ -2,6 +2,7 @@ package de.schaefer.christian.heaterbuiltdetermination;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -87,17 +88,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 year = "fehlt";
                 break;
             case "Buderus":
-                if(serialNumber.matches("\\d{9}-\\d{2}-\\d{4}-\\d{3}") || serialNumber.matches("\\d{9}-\\d{2}-\\d{4}-\\d{6}")){
+                if(serialNumber.matches("\\d+-\\d{2}-\\d{4}-\\d+")){
                     String[] parts = serialNumber.split("-");
                     String number = String.valueOf(parts[2].charAt(0));
-
-                    //int day = Integer.valueOf(parts[2].substring(parts[2].length() - 3));
-                    //GregorianCalendar gc = new GregorianCalendar();
-                    //gc.set(Calendar.DAY_OF_YEAR, day);
-                    //gc.set(Calendar.YEAR, 2001);
-
                     year = "xxx"+number+" (das Jahrzehnt muss ggf. abgeschätzt werden)";
-                    //year = "xxx"+number+" (Fertigungstag: "+gc.get(Calendar.DATE)+"."+gc.get(Calendar.MONTH)+"."+gc.get(Calendar.YEAR)+")";
                 }
                 else{
                     year = "Keine gültige Seriennummer";
@@ -142,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 break;
             case "Stiebel-Eltron":
                 if(serialNumber.matches("\\d{6}-\\d{4}")){
-                    String[]parts = serialNumber.split("-");
+                    String[] parts = serialNumber.split("-");
                     int number = Integer.valueOf(parts[1].substring(0, 2));
                     int yearTwoDigits = number+25;
                     if(yearTwoDigits>=100){
@@ -156,7 +150,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
                 break;
             case "Vaillant":
-
+                if(serialNumber.matches("\\d{2} \\d{4}.*")){
+                    // with space
+                    String numberYear = serialNumber.substring(3, 5);
+                    String numberWeek = serialNumber.substring(5, 7);
+                    year = "xx"+numberYear+", Fertigungswoche "+numberWeek;
+                }
+                else if(serialNumber.matches("\\d{2}\\d{4}.*")){
+                    // without space
+                    String numberYear = serialNumber.substring(2, 4);
+                    String numberWeek = serialNumber.substring(4, 6);
+                    year = "xx"+numberYear+", Fertigungswoche "+numberWeek;
+                }
+                else if(serialNumber.matches("\\d{2}-.*")){
+                int number = Integer.valueOf(serialNumber.substring(0,2));
+                    year = "xx"+number;
+                }
+                else{
+                    year = "Keine gültige Seriennummer";
+                }
                 break;
             default:
                 year = "Muss erst noch programmiert werden :)";
