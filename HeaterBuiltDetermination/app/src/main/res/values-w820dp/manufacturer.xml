@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="manufacturer_array">
+        <item>Bitte Hersteller auswählen</item>
+        <item>Alphainotec</item>
+        <item>Buderus</item>
+        <item>MAN/MHG</item>
+        <item>Schäfer</item>
+        <item>Sieger</item>
+        <item>Stiebel-Eltron</item>
+        <item>Vaillant</item>
+        <item>Viessmann</item>
+        <item>Wolf</item>
+        <item>Brötje</item>
+        <item>DeDietrich</item>
+        <item>Geminox</item>
+        <item>Junkers</item>
+        <item>Oertli</item>
+        <item>Paradigma</item>
+        <item>Tecalor</item>
+        <item>Weishaupt</item>
+        <item>Dimplex</item>
+        <item>Senertec</item>
+        <item>Fröhling</item>
+    </string-array>
+</resources>
