@@ -1,5 +1,7 @@
 # heater-built-determination
 
+![Launcher icon](https://dl.dropboxusercontent.com/u/6529185/ic_launcher.png)
+
 **heater-built-determination** is an android app for determination of a heaters year of construction based on its serial number.
 
 ### Why?
